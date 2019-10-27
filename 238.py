@@ -9,9 +9,7 @@ class Solution:
             
         for i in range(len(nums) - 1, -1, -1):
             M2[i] = M2[i+1] * nums[i]
-            
-        print(M1, M2)
-            
+                        
         for i in range(len(nums)):
             nums2.append(M1[i-1] * M2[i+1])
         
