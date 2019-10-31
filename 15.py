@@ -1,14 +1,20 @@
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
-        ans = []
+        ans = set()
         nums.sort()
-        for i in range(len(nums)):
-            for j in range(len(nums)):
-                for k in range(len(nums)):
-                    if i != j and i != k and i != j and j != k \
-                    and (nums[i] + nums[j] + nums[k]) == 0:
-                        triplet = [nums[i], nums[j], nums[k]]
-                        triplet.sort()
-                        if triplet not in ans:
-                            ans.append(triplet)
-        return ans
+        for i in range(len(nums) - 2):
+            l = i+1
+            r = len(nums) - 1
+            while l < r:
+                sum = nums[i] + nums[l] + nums[r]
+                
+                if sum is 0:
+                    triplet = (nums[i], nums[l], nums[r])
+                    ans.add(triplet)
+                    l += 1
+                elif sum < 0:
+                    l += 1
+                elif sum > 0:
+                    r -= 1
+        
+        return list(ans)
