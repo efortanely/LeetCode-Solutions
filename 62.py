@@ -1,14 +1,8 @@
 class Solution:
     def uniquePaths(self, m: int, n: int) -> int:
-        return self.pathHelper(0, 0, m, n)
-    
-    def pathHelper(self, i: int, j: int, m: int, n: int) -> int:
-            if i == m-1 and j == n-1:
-                return 1
-            else:
-                count = 0
-                if i+1 < m:
-                    count += self.pathHelper(i+1, j, m, n)
-                if j+1 < n:
-                    count += self.pathHelper(i, j+1, m, n)
-                return count
+        M = [[1 for j in range(n)] for i in range(m)]
+        for i in range(1, m):
+            for j in range(1, n):
+                M[i][j] = M[i-1][j] + M[i][j-1]
+        
+        return M[-1][-1]
