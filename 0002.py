@@ -4,26 +4,27 @@
 #         self.val = val
 #         self.next = next
 class Solution:
-    def addReverseVal(self, num: int, newNum: int, mult: int):
-        return num + mult * newNum, mult * 10
-    
     def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
-        ct1 = 1
-        num1 = 0
-        while l1 and l1.val != None:
-            num1, ct1 = self.addReverseVal(num1, l1.val, ct1)
+        ans = 0        
+        mult = 1
+        while l1:
+            ans += l1.val * mult
             l1 = l1.next
+            mult *= 10
         
-        ct1 = 1
-        while l2 and l2.val != None:
-            num1, ct1 = self.addReverseVal(num1, l2.val, ct1)
+        mult = 1
+        while l2:
+            ans += l2.val * mult
             l2 = l2.next
-                
-        arr = str(num1)
-        head = ListNode(arr[-1])
+            mult *= 10
+        
+        head = ListNode()
         ptr = head
-        for i in reversed(arr[:-1]):
-            node = ListNode(i)
-            ptr.next = node
-            ptr = node
-        return head
+        
+        while ans > 0:
+            ptr.next = ListNode()
+            ptr = ptr.next
+            ptr.val = ans%10
+            ans //= 10
+            
+        return head.next if head.next else ListNode(0)
