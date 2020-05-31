@@ -1,25 +1,24 @@
 """
 # Definition for a Node.
 class Node:
-    def __init__(self, val, neighbors):
+    def __init__(self, val = 0, neighbors = None):
         self.val = val
-        self.neighbors = neighbors
+        self.neighbors = neighbors if neighbors is not None else []
 """
+
 class Solution:
-    def __init__(self):
-        self.visited = dict() #int -> Node
-    
-    def cloneGraph(self, node: 'Node') -> 'Node':
+    def cloneGraphHelper(self, node: 'Node', visited) -> 'Node':
         if not node:
             return None
-        elif node.val in self.visited:
-            return self.visited[node.val]
+        elif node.val in visited:
+            return visited[node.val]
         else:
-            clone_node = Node(node.val, [])
-            self.visited[node.val] = clone_node
-            
-            for neighbor in node.neighbors:
-                clone_node.neighbors.append(self.cloneGraph(neighbor))
-            
-            return clone_node
-            
+            visited[node.val] = Node(node.val, [])
+            for nbr in node.neighbors:
+                visited[node.val].neighbors.append(self.cloneGraphHelper(nbr, visited))
+            return visited[node.val]
+    
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        visited = dict()
+        self.cloneGraphHelper(node, visited)
+        return visited[node.val] if node else None
