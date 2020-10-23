@@ -1,16 +1,19 @@
 class Solution:
     def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        d = dict()
+        
+        for num in nums1:
+            if num in d:
+                d[num] += 1
+            else:
+                d[num] = 1
+                
         ans = []
-        dic = dict()
-
-        for n in nums1:
-            dic[n] = dic[n] + 1 if n in dic else 1
-            
-        for n in nums2:
-            if n in dic:
-                ans.append(n)
-                dic[n] -= 1
-                if dic[n] is 0:
-                    del dic[n]
-            
+        for num in nums2:
+            if num in d:
+                ans.append(num)
+                d[num] -= 1
+                if d[num] == 0:
+                    del(d[num])
+                
         return ans
