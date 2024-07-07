@@ -1,10 +1,7 @@
 from typing import List
-from collections import defaultdict
 
 class Solution:
-    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
-        print(grid)
-        
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:        
         def valid(row, col):
             return 0 <= row < m and 0 <= col < n and grid[row][col] == 1
         
