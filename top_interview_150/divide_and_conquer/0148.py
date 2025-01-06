@@ -41,49 +41,50 @@ class ListNodeVisualizer:
 
 class Solution:
     def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        if not head:
+        if not head or not head.next:
             return head
         
-        curr = head
-        prev = None
-        not_mono_inc = True
+        # get middle with fast-slow pointer method
+        slow = head
+        fast = head
+        while fast.next and fast.next.next:
+            slow = slow.next
+            fast = fast.next.next
+        middle = slow
 
-        while True:
-            curr_val = curr.val
-            next = curr.next
+        # break list into two
+        left = head
+        right = middle.next
+        middle.next = None
 
-            if not next and not not_mono_inc:
-                curr = head
-                prev = None
-                not_mono_inc = True
-                continue
-            elif not next and not_mono_inc:
-                return head
+        # sort separate lists
+        left = self.sortList(left)
+        right = self.sortList(right)
 
-            next_val = next.val
+        # merge lists
+        dummy = ListNode(0)
+        tail = dummy
 
-            if curr_val > next_val:
-                not_mono_inc = False
+        while left and right:
+            if left.val < right.val:
+                tail.next = left
+                left = left.next
+            else:
+                tail.next = right
+                right = right.next
+            tail = tail.next
 
-            if curr_val > next_val:
-                if prev:
-                    prev.next = next
-                elif not prev:
-                    head = next
+        tail.next = left or right
 
-                temp = next.next
-                next.next = curr
-                curr.next = temp
-
-            prev = curr
-            curr = next
-
-            visualize = ListNodeVisualizer().visualize(head)
+        return dummy.next
 
 if __name__ == "__main__":
     globalVisualizationFactory.addVisualizer(ListNodeVisualizer())
+    # command for visualization in extension
+    # set break point at end of while loop
+    # ListNodeVisualizer().visualize(head)
     runner = Solution()
-    head = []
+    head = [4,2,1,3]
     curr = None
 
     for id, val in enumerate(reversed(head)):
