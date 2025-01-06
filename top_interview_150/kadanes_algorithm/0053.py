@@ -2,12 +2,12 @@ from typing import List
 
 class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
-        cur_subarray_sum = float("-inf")
+        curr_sum = float("-inf")
         ans = float("-inf")
 
-        for i in range(len(nums)):
-            cur_subarray_sum = max(cur_subarray_sum + nums[i], nums[i])
-            ans = max(ans, cur_subarray_sum)
+        for num in nums:
+            curr_sum = max(curr_sum + num, num)
+            ans = max(ans, curr_sum)
         
         return ans
 
