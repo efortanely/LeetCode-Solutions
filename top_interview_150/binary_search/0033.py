@@ -16,7 +16,6 @@ class Solution:
                 right = mid - 1
         
         pivot_idx = left
-
         left, right = 0, len(nums) - 1
 
         if nums[pivot_idx] <= target <= nums[right]:
