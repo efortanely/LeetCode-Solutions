@@ -5,23 +5,33 @@ class Solution:
         if len(efficiencyScores) < 5:
             return 0
         
-        inc_scores = sorted(efficiencyScores) # [-8, -7, -1, 1, 2, 3, 4, 5]
-        dec_scores = inc_scores[::-1] # [5, 4, 3, 2, 1, -1, -7, -8]
-        n = len(inc_scores)
+        efficiencyScores.sort()
+        n = len(efficiencyScores)
         prod = 1
-        small_pointer = 0
-        big_pointer = 0
+        small_pt = 0
+        big_pt = n-1
+        count = 0
         
-        while small_pointer + big_pointer < 5:
-            biggest, smallest = dec_scores[big_pointer], inc_scores[small_pointer]
-            if small_pointer < n-1 and big_pointer < n-1:
-                if smallest * inc_scores[small_pointer+1] > biggest * dec_scores[big_pointer+1]:
-                    prod *= smallest * inc_scores[small_pointer+1]
-                    small_pointer += 2
+        while count < 5:
+            if small_pt + 1 < big_pt:
+                smallest_pair_prod = efficiencyScores[small_pt] * efficiencyScores[small_pt+1]
+                largest_single = efficiencyScores[big_pt]
+
+                if smallest_pair_prod > largest_single:
+                    prod *= smallest_pair_prod
+                    small_pt += 2
+                    count += 2
                     continue
-            
-            prod *= biggest
-            big_pointer += 1
+                else:
+                    prod *= largest_single
+                    big_pt -= 1
+                    count += 1
+                    continue
+            else:
+                prod *= efficiencyScores[big_pt]
+                big_pt -= 1
+                count += 1
+                continue
         
         return prod
 
@@ -33,3 +43,4 @@ if __name__ == "__main__":
     output = runner.maximizeEfficiencyProduct(input)
     print(f"{input} = {output}")
     assert(output == answer)
+
