@@ -5,34 +5,14 @@ class Solution:
         stack = []
 
         for asteroid in asteroids:
-            if stack:
-                last_asteroid = stack[-1]
-
-                if last_asteroid > 0 and asteroid < 0:
-                    if abs(last_asteroid) < abs(asteroid):
-                        stack.pop()
-                        last_asteroid = stack[-1]
-                        append_asteroid = True
-
-                        while last_asteroid > 0 and asteroid < 0:
-                            if abs(last_asteroid) < abs(asteroid):
-                                stack.pop()
-                            elif abs(asteroid) < abs(last_asteroid):
-                                append_asteroid = False
-                                break
-                            else:
-                                stack.pop()
-
-                            last_asteroid = stack[-1]
-                        
-                        if append_asteroid:
-                            stack.append(asteroid)
-                    elif abs(asteroid) < abs(last_asteroid):
-                        pass
-                    else:
-                        stack.pop()
+            while stack and stack[-1] > 0 and asteroid < 0:
+                if abs(stack[-1]) < abs(asteroid):
+                    stack.pop()
+                elif abs(stack[-1]) > abs(asteroid):
+                    break
                 else:
-                    stack.append(asteroid)
+                    stack.pop()
+                    break
             else:
                 stack.append(asteroid)
 
@@ -40,7 +20,7 @@ class Solution:
     
 if __name__ == "__main__":
     runner = Solution()
-    asteroids = [10,2,-5]
+    asteroids = [-2,2,1,-2]
     ans = runner.asteroidCollision(asteroids)
     print(ans)
-    print("exp ans:", [10])
+    print("exp ans:", [-2])
